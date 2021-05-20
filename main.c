@@ -56,30 +56,9 @@ int main(int argc, char const *argv[])
 	}
 	
 	int milieu = (N - 1)/2;
-	remplir_matrice(matrice,pi,alpha,0,N-1,milieu,plus_dangereux_non_place);
-/*
-	for (size_t i = 0; i < N; i++)
-	{
-		for (size_t j = 0; j < N; j++)
-		{
-			matrice[i][j] = i*N + j + 1;
-		}
-		
-	}
-	int lig = 1;
-	int col = 5;
-	int voisins[8][2] = {0}; // tableau des coordonnees des voisins
-	int nb_voisins = get_voisins(voisins, lig, col); // remplit "voisins" et renvoie nb cases remplies
-	printf("(%d,%d)",voisins[0][0],voisins[0][1]);
-	for (size_t i = 1; i < 8; i++)
-	{
-		printf(",(%d,%d)",voisins[i][0],voisins[i][1]);
-	}
-*/
-	
+	remplir_matrice(matrice,pi,alpha,0,N-1,milieu,plus_dangereux_non_place);	
 
-	if (argc > 1) fprint_matrice(matrice, argv[1]);
-	else 		  fprint_matrice(matrice, "matrice.txt");
+	fprint_matrice(matrice, "matrice.txt");
 
 /*-------------------------FREE------------------------------*/	
 
