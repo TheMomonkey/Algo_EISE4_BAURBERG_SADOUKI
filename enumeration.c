@@ -136,7 +136,7 @@ void enumerer(){
 //int verification(){}
 
 /* Programme principalpour tester l'énumération à partir de la génération automique d'instances en entrée  */
-int main(int argc, char** argv){
+int main(int argc, const char* argv[]){
 	int *pi,*alpha;
 	ensemble_matrices=NULL;
 	if(argc<2){
