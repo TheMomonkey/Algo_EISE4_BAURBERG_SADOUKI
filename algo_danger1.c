@@ -3,6 +3,7 @@
 #include "algo_danger1.h"
 
 int dangerosite = 0;
+extern int nb_sommets,nb_voisins_max,cpt,voisins_tot,N;
 
 /* Affichage d'une liste grace a sa tete 
 	--> void

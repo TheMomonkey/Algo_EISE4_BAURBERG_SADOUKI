@@ -1,38 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "algo_danger1.h"
+#include "instanciation.h"
 
 /* TODO :
 	- ajouter option "verbose" a specifier dans Makefile
 */
 
-extern int dangerosite;
+extern int dangerosite, nb_sommets,nb_voisins_max,cpt,voisins_tot;
+int N = 0;
 
 int main(int argc, char const *argv[])
 {
 
 /*-------------------------INIT------------------------------*/	
 
-	int pi[] = {0,4,6,8,9,12,14,17,18};
+	int *pi;
+	int *alpha;
+	int nb_voisins_tot = instanciation(argc,argv,&pi,&alpha);
+	printf("nb_voisins_tot = %d\n",nb_voisins_tot);
+
+/*	int pi[] = {0,4,6,8,9,12,14,17,18};
 	int alpha[] = {3,5,2,9,1,6,1,5,7,3,1,7,7,2,4,6,5,9,8,1};
+*/
 	sommet_algo1_t * tete_liste_danger = NULL;
 	sommet_algo1_t * a_placer = NULL;
 
 	printf("AVANT INIT :\n");
-	for (int i = 0; i < NB_SOMMETS; i++) printf("pi[%d] = %02d --> sommet numero %d\n", i, pi[i], i+1);
+	for (int i = 0; i < nb_sommets; i++) printf("pi[%d] = %02d --> sommet numero %d\n", i, pi[i], i+1);
 	
-	for (int i = 0; i < NB_SOMMETS-1; i++) {
+	for (int i = 0; i < nb_sommets-1; i++) {
 		a_placer = (sommet_algo1_t*)(malloc(sizeof(sommet_algo1_t)));
 		tete_liste_danger = place_danger(pi[i], pi[i+1], i+1, tete_liste_danger, a_placer);
 	}
 	a_placer = (sommet_algo1_t*)(malloc(sizeof(sommet_algo1_t)));
-	tete_liste_danger = place_danger(pi[NB_SOMMETS-1], NB_ARETES*2, NB_SOMMETS, tete_liste_danger, a_placer);
+	tete_liste_danger = place_danger(pi[nb_sommets-1], nb_voisins_tot, nb_sommets, tete_liste_danger, a_placer);
 
 	printf("APRES INIT :\n");
 	print_liste(tete_liste_danger);
 
 /*-------------------------ALGO------------------------------*/	
 
+	N = sqrt(nb_sommets);
 	sommet_algo1_t * plus_dangereux_non_place = tete_liste_danger;
 	int** matrice = (int**)(malloc(N*sizeof(int*)));
 	for (size_t i = 0; i < N; i++)

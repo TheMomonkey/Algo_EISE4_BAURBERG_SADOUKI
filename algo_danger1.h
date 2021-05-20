@@ -4,9 +4,11 @@
 #ifndef ALGO_DANGER1__H
 #define ALGO_DANGER1__H
 
+/*
 #define NB_SOMMETS 9
 #define NB_ARETES 10
 #define N 3
+*/
 
 typedef struct sommet_algo1_s
 {

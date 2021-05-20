@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "instanciation.h"
 
 int nb_sommets,nb_voisins_max,cpt=0,voisins_tot=0;
 
@@ -48,15 +49,15 @@ void free_sommets(sommet_t* ensemble_sommets){
 }
 
 // Fonction d'instanciation automatique
-int instanciation(int argc, char** argv,int** p_pi,int** p_alpha){
+int instanciation(int argc, const char** argv,int** p_pi,int** p_alpha){
 	int flag=0,flag_tab=0,nouveau_voisin;
 
 	/* Récupération du nombre de sommets à inclure dans le graphe */
-	nb_sommets=atoi(argv[1]);
+	nb_sommets=atoi(argv[2]);
 
 	/* Récupération du nombre de voisins maximum par sommet à inclure dans le graphe pour notamment réduire le temps d'instanciation */
-	if(argc==3)
-		nb_voisins_max=atoi(argv[2]);
+	if(argc==4)
+		nb_voisins_max=atoi(argv[3]);
 	else
 		nb_voisins_max=nb_sommets;
 
