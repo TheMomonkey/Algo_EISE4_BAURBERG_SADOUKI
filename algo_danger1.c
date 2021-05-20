@@ -85,8 +85,19 @@ void remplir_matrice(int** matrice, int* pi, int* alpha, int ind_debut, int ind_
 	if (taille < 1) return; // pas de carre
 	if (taille < 2) {	    // pas de coin ni de bord si taille 1x1
 		printf("matrice[%d][%d]\n",ind_debut, ind_debut); // ind_debut = ind_fin
-		a_placer = maj_sommet_a_placer(a_placer,matrice,pi,alpha,&plus_dangereux_non_place,ind_debut,ind_debut);
-		matrice[ind_debut][ind_debut] = a_placer->nom; // c'est le dernier
+		matrice[ind_debut][ind_debut] = plus_dangereux_non_place->nom; // c'est le dernier
+		int voisins[8][2] = {0};
+		int nb_voisins = get_voisins(voisins,ind_debut,ind_debut);
+		for (int i_verif = 0; i_verif < nb_voisins; i_verif++)
+		{
+			int voisin_verif = matrice[voisins[i_verif][0]][voisins[i_verif][1]];
+			if (voisin_verif) {
+				for (int j_verif = 0; j_verif < plus_dangereux_non_place->danger; j_verif++)
+				{
+					if (alpha[pi[plus_dangereux_non_place->nom - 1] + j_verif] == voisin_verif) dangerosite++;
+				}
+			}
+		}
 		return;
 	}
 	
@@ -138,8 +149,6 @@ void remplir_matrice(int** matrice, int* pi, int* alpha, int ind_debut, int ind_
 */
 int get_voisins(int voisins[8][2], int lig, int col){
 
-	//printf("\n\n/*******VOISINS*******/\n");
-	
 	int nb_carres = N/2; // nb de carres imbriques dans le carre (commence a 0)
 
 	// Determination du carre actuel (0 = carre exterieur, juste coins+bords)
@@ -175,12 +184,13 @@ int get_voisins(int voisins[8][2], int lig, int col){
 	return nb_voisins_a_verifier;
 }
 
-/* AAAAAAAAAAAAAAAAAAAAA FINIIIIIIIIIIIIIIIIIR */
+/* Met à jour le prochain sommet à placer en fonction des coordonnées d'insertion dans la matrice
+	--> renvoie une pointeur vers le sommet à placer */
 sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, int* pi, int* alpha, sommet_algo1_t ** plus_dangereux_non_place, int lig, int col){
 
-	printf("plus_dangereux_non_place->nom = %d\n",(*plus_dangereux_non_place)->nom);
+	//printf("plus_dangereux_non_place->nom = %d\n",(*plus_dangereux_non_place)->nom);
 	a_placer = *plus_dangereux_non_place;
-	printf("i=%d,j=%d\n",lig,col);
+	//printf("i=%d,j=%d\n",lig,col);
 
 	if ((lig==0 && (col==0 || col==N-1)) || (lig==N-1 && (col==0 || col==N-1))) { // si sur coin, placement immediat
 		*plus_dangereux_non_place = (*plus_dangereux_non_place)->suivant;
@@ -196,7 +206,7 @@ sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, i
 		// un_voisin = un voisin dans la matrice dont l'indice est compatible avec le tableau pi (a 1 pres)
 			// (les indices de pi commencent a 0 et les noms de sommets a 1)
 		int un_voisin = matrice[voisins[i][0]][voisins[i][1]];
-		printf("un_voisin = %d, i = %d\n",un_voisin, i);
+		//printf("un_voisin = %d, i = %d\n",un_voisin, i);
 
 		if (un_voisin)
 		{ // car il peut ne pas etre encore place
@@ -209,15 +219,27 @@ sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, i
 						a_placer = a_placer->suivant;
 						while (a_placer->place == 1) {
 							if (a_placer->suivant) a_placer = a_placer->suivant;
-							else a_placer = plus_dangereux_non_place;
+							else {
+								a_placer = *plus_dangereux_non_place;
+								break;
+							}
 						}
-						printf("weshwesh passe a %d\n", a_placer->nom);
 						i = -1; // changement de sommet => re-verification
 						break;
 					}
 					else {
 						a_placer = *plus_dangereux_non_place; // si on arrive a la fin de la liste (tous provoquant une liaison dangereuse), autant placer le plus dangereux
-						dangerosite++;
+						// faire la meme verification des voisins pour plus_dangereux_non_place pour avoir le nb d'aretes
+						for (int i_verif = 0; i_verif < nb_voisins; i_verif++)
+						{
+							int voisin_verif = matrice[voisins[i_verif][0]][voisins[i_verif][1]];
+							if (voisin_verif) {
+								for (int j_verif = 0; j_verif < a_placer->danger; j_verif++)
+								{
+									if (alpha[pi[a_placer->nom - 1] + j_verif] == voisin_verif) dangerosite++;
+								}
+							}
+						}
 						break;
 					}
 				}
@@ -226,8 +248,8 @@ sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, i
 	}
 
 	a_placer->place = 1;
-	printf("a_placer->nom = %d\n",a_placer->nom);
-	if ((a_placer->nom == (*plus_dangereux_non_place)->nom) && ((*plus_dangereux_non_place)->suivant) != NULL)) *plus_dangereux_non_place = (*plus_dangereux_non_place)->suivant;
+	//printf("a_placer->nom = %d\n",a_placer->nom);
+	if ((a_placer->nom == (*plus_dangereux_non_place)->nom) && ((*plus_dangereux_non_place)->suivant) != NULL) *plus_dangereux_non_place = (*plus_dangereux_non_place)->suivant;
 
 	return a_placer;
 
@@ -260,6 +282,8 @@ void fprint_matrice(int** matrice, const char * nom_fichier){
 		}
 		fprintf(fd, "\n");
 	}
+
+	fprintf(fd, "\nDangerosite = %d",dangerosite);
 	
 
 	fclose(fd);
