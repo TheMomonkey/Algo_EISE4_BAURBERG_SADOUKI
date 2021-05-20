@@ -19,7 +19,7 @@ algo_danger1.o: algo_danger1.c algo_danger1.h
 	@gcc $(CFLAGS) -o $@ -c $<
 	
 enumeration: instanciation.o enumeration.o
-	@gcc $(CFLAGS) enumeration.o instanciation.o -o $@
+	@gcc $(CFLAGS) -lm enumeration.o instanciation.o -o $@
 	@echo "Fichier executable cree, nom: $@"
 	
 instanciation.o: instanciation.c instanciation.h
