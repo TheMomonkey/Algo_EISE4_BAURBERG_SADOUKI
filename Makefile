@@ -32,5 +32,5 @@ enumeration.o: enumeration.c
 
 clean:
 	@echo "Suppression des fichiers objets et de l'executable"
-	@rm -f *.o $(EXE)
+	@rm -f *.o $(EXE) $(EXE1)
 
