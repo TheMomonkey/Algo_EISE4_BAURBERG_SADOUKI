@@ -178,12 +178,12 @@ int get_voisins(int voisins[8][2], int lig, int col){
 /* AAAAAAAAAAAAAAAAAAAAA FINIIIIIIIIIIIIIIIIIR */
 sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, int* pi, int* alpha, sommet_algo1_t ** plus_dangereux_non_place, int lig, int col){
 
-	printf("plus_dangereux_non_place->nom = %d\n",plus_dangereux_non_place->nom);
-	a_placer = plus_dangereux_non_place;
+	printf("plus_dangereux_non_place->nom = %d\n",(*plus_dangereux_non_place)->nom);
+	a_placer = *plus_dangereux_non_place;
 	printf("i=%d,j=%d\n",lig,col);
 
 	if ((lig==0 && (col==0 || col==N-1)) || (lig==N-1 && (col==0 || col==N-1))) { // si sur coin, placement immediat
-		*plus_dangereux_non_place = plus_dangereux_non_place->suivant;
+		*plus_dangereux_non_place = (*plus_dangereux_non_place)->suivant;
 		return a_placer;
 	}
 
@@ -216,7 +216,7 @@ sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, i
 						break;
 					}
 					else {
-						a_placer = plus_dangereux_non_place; // si on arrive a la fin de la liste (tous provoquant une liaison dangereuse), autant placer le plus dangereux
+						a_placer = *plus_dangereux_non_place; // si on arrive a la fin de la liste (tous provoquant une liaison dangereuse), autant placer le plus dangereux
 						dangerosite++;
 						break;
 					}
@@ -227,7 +227,7 @@ sommet_algo1_t * maj_sommet_a_placer(sommet_algo1_t * a_placer, int** matrice, i
 
 	a_placer->place = 1;
 	printf("a_placer->nom = %d\n",a_placer->nom);
-	if ((a_placer->nom == plus_dangereux_non_place->nom) && (plus_dangereux_non_place->suivant) != NULL)) plus_dangereux_non_place = plus_dangereux_non_place->suivant;
+	if ((a_placer->nom == (*plus_dangereux_non_place)->nom) && ((*plus_dangereux_non_place)->suivant) != NULL)) *plus_dangereux_non_place = (*plus_dangereux_non_place)->suivant;
 
 	return a_placer;
 
