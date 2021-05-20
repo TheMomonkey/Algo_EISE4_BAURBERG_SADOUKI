@@ -1,4 +1,5 @@
 CFLAGS=-Wall
+INCLFAGS=-lm
 EXE=algo1 
 EXE1=enumeration
 
@@ -7,12 +8,12 @@ EXE1=enumeration
 all: algo1 enumeration
 
 algo1: main.o algo_danger1.o instanciation.o
-	@gcc $(CFLAGS) main.o algo_danger1.o instanciation.o -o $@
+	@gcc $(CFLAGS) $(INCFLAGS) main.o algo_danger1.o instanciation.o -o $@
 	@echo "Fichier executable cree, nom : $@"
 
 main.o: main.c
 	@echo "Compilation de $@"
-	@gcc $(CFLAGS) -o $@ -c $<
+	@gcc $(CFLAGS) $(INCFLAGS) -o $@ -c $<
 
 algo_danger1.o: algo_danger1.c algo_danger1.h
 	@echo "Compilation de $@"
