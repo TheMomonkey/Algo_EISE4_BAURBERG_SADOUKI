@@ -133,7 +133,7 @@ void enumerer(){
  
 /* Fonction de vérification à impllémenter pour vérifier la dangerosité des configurationz de fûts
  * Pas encore implémentée car il y a des problématiques sur la générations des énumérations pour une grille de plus de 4 sommets */
-int verification(){}
+//int verification(){}
 
 /* Programme principalpour tester l'énumération à partir de la génération automique d'instances en entrée  */
 int main(int argc, char** argv){

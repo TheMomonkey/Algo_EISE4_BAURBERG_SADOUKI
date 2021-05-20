@@ -19,7 +19,7 @@ algo_danger1.o: algo_danger1.c algo_danger1.h
 	@gcc $(CFLAGS) -o $@ -c $<
 	
 enumeration: instanciation.o enumeration.o
-	@gcc $(CFLAGS) enumeration.o instanciation.o -o $@
+	@gcc $(CFLAGS) -lm enumeration.o instanciation.o -o $@
 	@echo "Fichier executable cree, nom: $@"
 	
 instanciation.o: instanciation.c instanciation.h
@@ -32,5 +32,5 @@ enumeration.o: enumeration.c
 
 clean:
 	@echo "Suppression des fichiers objets et de l'executable"
-	@rm -f *.o $(EXE)
+	@rm -f *.o $(EXE) $(EXE1)
 
