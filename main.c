@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include "algo_danger1.h"
 
-/* TODO :
-	- ajouter option "verbose" a specifier dans Makefile
-*/
-
 extern int dangerosite;
 
 int main(int argc, char const *argv[])
