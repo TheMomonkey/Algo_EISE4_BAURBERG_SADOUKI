@@ -83,8 +83,11 @@ void remplir_matrice(int** matrice, int* pi, int* alpha, int ind_debut, int ind_
 	int taille = ind_fin - ind_debut+1; // evite de calculer a chaque verification
 	sommet_algo1_t * a_placer = (sommet_algo1_t*)(malloc(sizeof(sommet_algo1_t)));
 
-	if (taille < 1) return; // pas de carre
-	if (taille < 2) {	    // pas de coin ni de bord si taille 1x1
+	if (taille < 1) { // pas de carre
+		free(a_placer);
+		return;
+	}
+	if (taille < 2) { // pas de coin ni de bord si taille 1x1
 		printf("matrice[%d][%d]\n",ind_debut, ind_debut); // ind_debut = ind_fin
 		matrice[ind_debut][ind_debut] = plus_dangereux_non_place->nom; // c'est le dernier
 		int voisins[8][2] = {0};
@@ -99,6 +102,7 @@ void remplir_matrice(int** matrice, int* pi, int* alpha, int ind_debut, int ind_
 				}
 			}
 		}
+		free(a_placer);
 		return;
 	}
 	
@@ -115,7 +119,10 @@ void remplir_matrice(int** matrice, int* pi, int* alpha, int ind_debut, int ind_
 		plus_dangereux_non_place = plus_dangereux_non_place->suivant;
 	}
 
-	if (taille < 3) return; // pas de bord si taille 2x2
+	if (taille < 3) { // pas de bord si taille 2x2
+		free(a_placer);
+		return;
+	}
 
 	// BORDS
 	int offset = 0, lig = 0, col = 0;
